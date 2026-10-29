@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Voice Agent Vendor Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
+<style>
+/* Layout: navy banner with woven band, filter rail, then layer sections ruled like a ledger */
+:root{
+  --ground:#ECE9E6; --paper:#F7F5F3; --ink:#1E1B26; --muted:#5E5869; --rule:#CFC8CF;
+  --navy:#17203D; --navy-ink:#F3EEDF; --gilt:#B8901F; --violet:#5A3B8A; --teal:#28716D; --chip-off:#E2DDE2;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ground:#141319; --paper:#1C1B23; --ink:#ECE8F1; --muted:#A69FB2; --rule:#36323F;
+  --navy:#0F1630; --navy-ink:#F1EAD4; --gilt:#D8B44A; --violet:#AE93DD; --teal:#62B6B0; --chip-off:#2A2833; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ground:#141319; --paper:#1C1B23; --ink:#ECE8F1; --muted:#A69FB2; --rule:#36323F;
+  --navy:#0F1630; --navy-ink:#F1EAD4; --gilt:#D8B44A; --violet:#AE93DD; --teal:#62B6B0; --chip-off:#2A2833; color-scheme:dark}
+body{background:var(--ground);color:var(--ink);font:15px/1.5 var(--body);margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--navy);color:var(--navy-ink)}
+header .wrap{padding-block:28px 22px;display:grid;gap:6px}
+.kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gilt);font-weight:600}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(28px,5vw,42px);line-height:1.08;margin:0;color:var(--gilt);text-wrap:balance}
+.lede{max-width:62ch;margin:4px 0 0;color:var(--navy-ink);opacity:.88}
+.weave{height:10px;background:
+  repeating-linear-gradient(90deg,var(--gilt) 0 6px,transparent 6px 12px),
+  repeating-linear-gradient(0deg,var(--violet) 0 5px,var(--teal) 5px 10px)}
+main .wrap{padding-block:22px 40px;display:grid;gap:22px}
+.filters{display:grid;gap:14px;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:16px}
+.frow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flabel{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);min-width:96px;font-weight:600}
+button.pill{font:500 13px var(--body);border:1px solid var(--rule);background:transparent;color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+button.pill[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:var(--paper)}
+button.pill:focus-visible,input:focus-visible{outline:2px solid var(--gilt);outline-offset:2px}
+.count{font-variant-numeric:tabular-nums;opacity:.7;margin-left:4px}
+input[type=search]{font:14px var(--body);padding:7px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--ground);color:var(--ink);flex:1 1 220px;min-width:0}
+.check{display:flex;gap:6px;align-items:center;font-size:14px}
+.status{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.layer{display:grid;gap:0}
+.layer h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 2px}
+.layer .sub{color:var(--muted);font-size:13px;margin:0 0 8px}
+.row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.6fr) minmax(0,1.2fr) minmax(0,1.5fr);gap:14px;padding:12px 0;border-top:1px solid var(--rule)}
+.row:last-child{border-bottom:1px solid var(--rule)}
+.row>*{min-width:0}
+.name{font-weight:600;font-size:16px}
+.name a{color:var(--ink);text-decoration-color:var(--gilt);text-underline-offset:3px}
+.meta{font-size:13px;color:var(--muted)}
+.cell-label{display:none;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.fund{font-variant-numeric:tabular-nums;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:3px;background:var(--chip-off);color:var(--muted)}
+.chip.on{background:var(--teal);color:var(--paper)}
+.note{font-size:12.5px;color:var(--muted);margin-top:4px}
+.empty{padding:24px;border:1px dashed var(--rule);border-radius:6px;color:var(--muted);text-align:center}
+footer .wrap{padding-block:0 32px;font-size:12.5px;color:var(--muted);max-width:1080px}
+@media (max-width:760px){
+  .row{grid-template-columns:1fr;gap:6px}
+  .cell-label{display:block}
+  .flabel{min-width:100%}
+}
+@media (prefers-reduced-motion:no-preference){button.pill{transition:background .15s,color .15s}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">Epistemic Systems Lab · companion to Voice Agents for Regulated Firms 2026-27</div>
+    <h1>Voice Agent Vendor Map</h1>
+    <p class="lede">32 suppliers across the five layers of an automated call, with the compliance position each states on its own pages, latest reported funding and regulated-sector customers named in sources. As of 27 October 2026.</p>
+  </div>
+  <div class="weave" aria-hidden="true"></div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="filters" aria-label="Filters">
+      <div class="frow" id="layerRow"><span class="flabel">Layer</span></div>
+      <div class="frow" id="compRow"><span class="flabel">Must claim</span></div>
+      <div class="frow">
+        <span class="flabel">Narrow</span>
+        <input type="search" id="q" placeholder="Search name, customer or note" aria-label="Search vendors">
+        <label class="check"><input type="checkbox" id="regcust"> Named regulated customer</label>
+      </div>
+      <div class="status" id="status" aria-live="polite"></div>
+    </section>
+    <div id="results" style="display:grid;gap:28px"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Compliance marks are the companies' own statements as read on the linked pages, or reported by the sources cited; a grey mark means the claim was not stated on the pages read, which does not mean the vendor lacks it. Funding figures are as reported by the named source. ESL classification of layers. Information only; not legal, investment or procurement advice. Errors are corrected in a new release.</p>
+  </div>
+</footer>
+
+<script>
+const LAYERS = [
+  {id:"testing", name:"Testing and assurance", sub:"Simulation, replay and monitoring of agents before and after release"},
+  {id:"platforms", name:"Agent platforms", sub:"Build, run and own the call flow; enterprise customer-service agents"},
+  {id:"audio", name:"Audio and voice rights", sub:"Noise, speaker separation, diarization, licensed voices"},
+  {id:"models", name:"Speech models", sub:"Recognition, synthesis and speech-to-speech"},
+  {id:"network", name:"Telephony and transport", sub:"Carriers, WebRTC infrastructure, in-region routing"}
+];
+const COMP = [
+  {id:"SOC2", label:"SOC 2"},{id:"ISO", label:"ISO 27001"},{id:"HIPAA", label:"HIPAA / BAA"},
+  {id:"PCI", label:"PCI DSS"},{id:"GDPR", label:"GDPR"},{id:"REGION", label:"Regional hosting"},{id:"SELF", label:"Self-host / on-prem"}
+];
+const V = [
+ {n:"Telnyx",l:"network",hq:"US; databases cite Chicago and Austin",what:"Own carrier network with voice AI agents, numbers, SIP and call control",f:"About $11m outside funding disclosed (PitchBook)",c:["SOC2","ISO","HIPAA","PCI","GDPR"],cust:"",note:"Nine-day Dubai region impairment in March 2026 (status trackers)",u:"https://telnyx.com/landing/superai-2026-voice-ai-inference"},
+ {n:"LiveKit",l:"network",hq:"San Francisco",what:"Open-source real-time media and agent framework; Inference model gateway",f:"$100m Series C at $1bn, Index Ventures (Jan 2026)",c:["HIPAA","REGION","SELF"],cust:"",note:"Runs ChatGPT voice mode; Apache 2.0 framework can be self-hosted",u:"https://livekit.com/about"},
+ {n:"SLNG",l:"network",hq:"Barcelona (investor); London (databases)",what:"Execution layer routing each call step to models in-region",f:"EUR 3.3m pre-seed, Earlybird (Oct 2025)",c:["REGION"],cust:"",note:"Infrastructure in 11 sovereign regions; cost savings self-reported",u:"https://tech.eu/2026/05/18/former-vercel-executive-says-voice-agents-will-be-won-on-infrastructure-not-models/"},
+ {n:"Daily (Pipecat)",l:"network",hq:"US",what:"WebRTC infrastructure, open-source Pipecat framework and Pipecat Cloud",f:"$40m Series B (2021)",c:["SOC2","HIPAA","SELF"],cust:"",note:"SOC 2 covers WebRTC; Pipecat Cloud SOC 2 on roadmap",u:"https://www.daily.co/blog/pipecat-cloud-is-now-generally-available/"},
+ {n:"Deepgram",l:"models",hq:"San Francisco",what:"Speech recognition, synthesis, turn-taking model and Voice Agent API",f:"$130m Series C at $1.3bn, extended by EDBI (2026)",c:["SOC2","HIPAA","PCI","GDPR","REGION","SELF"],cust:"Unnamed Fortune 20 healthcare company",note:"Request data may be used for training unless opted out per request",u:"https://developers.deepgram.com/docs/data-privacy-compliance"},
+ {n:"Cartesia",l:"models",hq:"San Francisco",what:"State space speech synthesis (Sonic), recognition (Ink), agent platform (Line)",f:"$100m (Oct 2025); $191m total (Sacra)",c:["SOC2","HIPAA","GDPR","SELF"],cust:"ServiceNow uses its synthesis",note:"Voice agents listed at $0.06 a minute",u:"https://www.cartesia.ai/pricing"},
+ {n:"Fish Audio",l:"models",hq:"Palo Alto",what:"Expressive speech synthesis, cloning and hosted agents; open-weight models",f:"$52m seed, Coreline and Capital Today (Jul 2026)",c:["HIPAA","SELF"],cust:"",note:"SOC 2 Type II audit under way; open weights need a commercial licence",u:"https://fish.audio/enterprise"},
+ {n:"Moonshine AI",l:"models",hq:"Mountain View",what:"On-device streaming speech recognition, MIT-licensed",f:"Undisclosed, Wing VC and IQT (2025)",c:["SELF"],cust:"",note:"Runs on ordinary processors without a GPU",u:"https://petewarden.com/2026/02/13/announcing-moonshine-voice/"},
+ {n:"ElevenLabs",l:"models",hq:"London",what:"Speech synthesis and recognition plus the ElevenAgents platform",f:"$22bn valuation in Oct 2026 employee tender",c:["SOC2","HIPAA","GDPR","REGION"],cust:"Stripe, Customers Bank, Admiral, Klarna, Alpha Bank",note:"EU data residency for Enterprise; zero-retention mode",u:"https://fintech.global/2026/10/07/elevenlabs-hits-22bn-as-financial-firms-adopt-ai-agents/"},
+ {n:"Gradium",l:"models",hq:"Paris and San Francisco",what:"Streaming recognition, synthesis, speech translation, on-device TTS",f:"Seed extended past $100m with Nvidia (Jul 2026)",c:[],cust:"",note:"Zero data retention on paid plans; DPA offered",u:"https://gradium.ai/blog/gradium-100-million-funding-nvidia"},
+ {n:"Rime",l:"models",hq:"San Francisco",what:"Speech synthesis for enterprise voice agents",f:"$24m Series A, M13 (Jul 2026)",c:["SOC2","HIPAA","SELF"],cust:"",note:"Healthcare workloads via Oracle Cloud partnership",u:"https://docs.rime.ai/docs/privacy-compliance"},
+ {n:"AssemblyAI",l:"models",hq:"US",what:"Speech recognition including streaming models for agents",f:"$50m, Accel (2023)",c:["SOC2","ISO","HIPAA","REGION"],cust:"",note:"Medical Mode add-on; EU data residency",u:"https://www.assemblyai.com/blog/expanding-enterprise-security-and-data-residency-capabilities"},
+ {n:"Speechmatics",l:"models",hq:"Cambridge, UK",what:"Speech recognition in cloud, private cloud and on-premises",f:"$62m Series B (2022)",c:["SOC2","ISO","HIPAA","GDPR","SELF"],cust:"Sully.ai healthcare partnership",note:"Voice-agent model available through LiveKit Inference",u:"https://www.speechmatics.com/security"},
+ {n:"AudioShake",l:"audio",hq:"San Francisco",what:"Separates dialogue, music, effects and individual speakers; real-time SDK",f:"$14m Series A, Shine Capital; $19m total",c:["SOC2"],cust:"",note:"Customers in media and music; SOC 2 badge without stated scope",u:"https://www.audioshake.ai/"},
+ {n:"Voices",l:"audio",hq:"London, Ontario",what:"Marketplace of voice actors; consent-based AI voice licensing and voice data",f:"$18m, Morgan Stanley Expansion Capital (2017)",c:[],cust:"",note:"About 40,000 actors take AI voice work on the platform",u:"https://www.cmswire.com/the-wire/voices-for-agencies-brings-high-quality-voice-over-and-branded-ai-voice-to-creative-agencies/"},
+ {n:"Krisp",l:"audio",hq:"Berkeley",what:"Noise cancellation, accent conversion and translation SDKs",f:"$5m Series A (2020)",c:["SOC2","HIPAA","PCI","SELF"],cust:"",note:"Core features process audio on the user's machine",u:"https://krisp.ai/security-for-call-centers-enterprises/"},
+ {n:"pyannoteAI",l:"audio",hq:"France",what:"Speaker diarization by API or self-hosted",f:"$9m seed (2025)",c:["SELF"],cust:"",note:"Audio stays in the customer environment when self-hosted",u:"https://www.pyannote.ai/enterprise-new"},
+ {n:"Vapi",l:"platforms",hq:"San Francisco",what:"Developer platform for building and running voice agents",f:"$50m Series B, Peak XV (May 2026)",c:["SOC2","HIPAA","REGION"],cust:"New York Life, Intuit (logos); Medicare seller",note:"HIPAA add-on $2,000 a month; EU region on top tier only",u:"https://vapi.ai/pricing"},
+ {n:"Phonely",l:"platforms",hq:"San Francisco",what:"Phone agents for businesses and contact centres",f:"$16m Series A, Base10, over $100m valuation",c:["HIPAA","PCI","SELF"],cust:"Insurance sales via Engage CX",note:"States it does not train on customer data",u:"https://phonely.ai/enterprise"},
+ {n:"ServiceNow",l:"platforms",hq:"Public company",what:"AI Voice Agents inside ServiceNow workflows via CCaaS or WebRTC",f:"Public company",c:[],cust:"Existing ServiceNow customers",note:"Data may be processed in another region; product-improvement use unless opted out",u:"https://www.servicenow.com/docs/r/intelligent-experiences/deploy-ai-agents-for-voice.html"},
+ {n:"Delphi",l:"platforms",hq:"San Francisco",what:"Conversational replicas of experts by text, voice and video",f:"$16m Series A, Sequoia",c:[],cust:"",note:"Voice calls run on Vapi",u:"https://www.fastcompany.com/91356476/delphi-ai-digital-mind"},
+ {n:"Sierra",l:"platforms",hq:"US",what:"Enterprise chat and voice customer-service agents",f:"$950m at over $15bn, Tiger Global and GV (May 2026)",c:["SOC2","ISO","HIPAA","PCI","GDPR"],cust:"Cigna",note:"AIUC-1 certification after Schellman audit",u:"https://sierra.ai/product/trust-and-reliability"},
+ {n:"PolyAI",l:"platforms",hq:"London",what:"Enterprise voice agents on its own models",f:"$86m Series D at $750m (Dec 2025)",c:["SOC2","ISO","HIPAA","PCI","GDPR"],cust:"UniCredit, PG&E",note:"British Business Bank invested; HIPAA and PCI where relevant",u:"https://docs.poly.ai/legal/compliance"},
+ {n:"Parloa",l:"platforms",hq:"Berlin and New York",what:"AI agent management platform for customer service",f:"$350m Series D at $3bn, General Catalyst (Jan 2026)",c:[],cust:"Allianz, Swiss Life, Sedgwick, HealthEquity",note:"Trust centre available on request",u:"https://tech.eu/2026/01/15/parloa-raises-350m-tripling-valuation-to-3bn/"},
+ {n:"Retell AI",l:"platforms",hq:"Palo Alto",what:"Phone agent platform with QA tooling",f:"About $5m seed; Sacra estimates $80m annualised revenue",c:["SOC2","ISO","HIPAA"],cust:"",note:"Self-service BAA; TCPA consent features",u:"https://www.retellai.com/industry-pages/healthcare-industry"},
+ {n:"Bland AI",l:"platforms",hq:"US",what:"Phone automation with self-hosted infrastructure option",f:"$40m Series B, Emergence",c:["HIPAA","SELF"],cust:"Better.com",note:"HIPAA via self-hosted deployment",u:"https://www.bland.ai/blogs/does-blands-voice-ai-have-enterprise-compliances-like-baas-and-hipaa"},
+ {n:"Cresta",l:"platforms",hq:"US",what:"Contact-centre agent assist and AI agents",f:"$125m Series D (2024)",c:[],cust:"Intuit",note:"Trust centre available on request",u:"https://cresta.com/press/cresta-closes-125m-series-d-to-accelerate-adoption-of-human-centric-ai-in-the-contact-center"},
+ {n:"Hippocratic AI",l:"platforms",hq:"Palo Alto",what:"Patient-facing, non-diagnostic healthcare voice agents",f:"$126m Series C at $3.5bn, Avenir (Nov 2025)",c:[],cust:"Cleveland Clinic, Guy's and St Thomas', WellSpan, Medical Mutual",note:"WellSpan agent handles 160,000+ patient calls a month",u:"https://www.fiercehealthcare.com/ai-and-machine-learning/hippocratic-ai-lands-126m-series-c-expand-patient-facing-ai-agents-fuel-ma"},
+ {n:"Coval",l:"testing",hq:"San Francisco",what:"Simulation, observability and review for voice and chat agents",f:"$28m Series A, Norwest (Jun 2026)",c:["SOC2","HIPAA","SELF"],cust:"",note:"Single-tenant deployments; GDPR in progress",u:"https://www.coval.ai/products"},
+ {n:"Hamming AI",l:"testing",hq:"San Francisco, Austin, London",what:"Testing, monitoring and governance for voice agents",f:"$3.8m seed, Mischief (2024)",c:["SOC2","HIPAA"],cust:"Grove AI, Luma Health",note:"Focus on regulatory edge cases in healthcare and finance",u:"https://hamming.ai/case-studies"},
+ {n:"Roark",l:"testing",hq:"US",what:"Replays production calls against new agent versions",f:"Undisclosed",c:[],cust:"",note:"Compliance-violation monitoring feature",u:"https://www.ycombinator.com/launches/Mnq-roark-the-observability-testing-platform-for-voice-ai"},
+ {n:"Cekura",l:"testing",hq:"US",what:"Testing and monitoring for voice and chat agents",f:"$2.4m seed, Y Combinator",c:["SOC2","HIPAA","GDPR","SELF"],cust:"",note:"Can run inside the customer's own cloud",u:"https://www.cekura.ai/blogs/soc2-compliant-voice-ai-testing-platform"}
+];
+
+const state = {layer:"all", comp:new Set(), q:"", reg:false};
+function load(){ try{ const s = JSON.parse(localStorage.getItem("vmap")||"null"); if(s){ state.layer=s.layer||"all"; state.comp=new Set(s.comp||[]); state.reg=!!s.reg; } }catch(e){} }
+function save(){ try{ localStorage.setItem("vmap", JSON.stringify({layer:state.layer, comp:[...state.comp], reg:state.reg})); }catch(e){} }
+
+function el(tag, attrs, ...kids){ const e = document.createElement(tag); for(const k in (attrs||{})){ if(k==="class") e.className=attrs[k]; else if(k==="text") e.textContent=attrs[k]; else e.setAttribute(k, attrs[k]); } kids.forEach(c=> c && e.append(c)); return e; }
+
+function matches(v){
+  if(state.layer!=="all" && v.l!==state.layer) return false;
+  for(const c of state.comp) if(!v.c.includes(c)) return false;
+  if(state.reg && !v.cust) return false;
+  if(state.q){ const hay = (v.n+" "+v.what+" "+v.cust+" "+v.note+" "+v.hq).toLowerCase(); if(!hay.includes(state.q)) return false; }
+  return true;
+}
+
+function buildFilters(){
+  const lr = document.getElementById("layerRow");
+  const opts = [{id:"all", name:"All layers"}, ...LAYERS];
+  opts.forEach(o=>{
+    const n = o.id==="all" ? V.length : V.filter(v=>v.l===o.id).length;
+    const b = el("button",{class:"pill", type:"button", id:"layer-"+o.id, "aria-pressed": String(state.layer===o.id)}, o.name, el("span",{class:"count", text:String(n)}));
+    b.addEventListener("click",()=>{ state.layer=o.id; lr.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", String(x===b))); save(); render(); });
+    lr.append(b);
+  });
+  const cr = document.getElementById("compRow");
+  COMP.forEach(c=>{
+    const b = el("button",{class:"pill", type:"button", id:"comp-"+c.id, "aria-pressed": String(state.comp.has(c.id))}, c.label);
+    b.addEventListener("click",()=>{ state.comp.has(c.id) ? state.comp.delete(c.id) : state.comp.add(c.id); b.setAttribute("aria-pressed", String(state.comp.has(c.id))); save(); render(); });
+    cr.append(b);
+  });
+  const q = document.getElementById("q"); q.addEventListener("input",()=>{ state.q=q.value.trim().toLowerCase(); render(); });
+  const rc = document.getElementById("regcust"); rc.checked=state.reg; rc.addEventListener("change",()=>{ state.reg=rc.checked; save(); render(); });
+}
+
+function row(v){
+  const name = el("div",{}, el("div",{class:"name"}, el("a",{href:v.u, target:"_blank", rel:"noopener", text:v.n})), el("div",{class:"meta", text:v.hq}));
+  const what = el("div",{}, el("span",{class:"cell-label", text:"What it sells"}), el("div",{text:v.what}), v.note ? el("div",{class:"note", text:v.note}) : null);
+  const fund = el("div",{}, el("span",{class:"cell-label", text:"Latest funding reported"}), el("div",{class:"fund", text:v.f}));
+  const chips = el("div",{class:"chips"}); COMP.forEach(c=> chips.append(el("span",{class:"chip"+(v.c.includes(c.id)?" on":""), text:c.label, title:(v.c.includes(c.id)?"Stated":"Not stated on pages read")})));
+  const comp = el("div",{}, el("span",{class:"cell-label", text:"Compliance claims"}), chips, v.cust ? el("div",{class:"note", text:"Regulated customers: "+v.cust}) : null);
+  return el("div",{class:"row"}, name, what, fund, comp);
+}
+
+function render(){
+  const out = document.getElementById("results"); out.replaceChildren();
+  const shown = V.filter(matches);
+  document.getElementById("status").textContent = `Showing ${shown.length} of ${V.length} vendors`;
+  if(!shown.length){ out.append(el("div",{class:"empty", text:"No vendor meets every filter. Remove a compliance requirement or widen the layer."})); return; }
+  LAYERS.forEach(L=>{
+    const items = shown.filter(v=>v.l===L.id); if(!items.length) return;
+    const sec = el("section",{class:"layer", "aria-label":L.name}, el("h2",{text:L.name}), el("p",{class:"sub", text:`${L.sub} · ${items.length} shown`}));
+    items.forEach(v=> sec.append(row(v)));
+    out.append(sec);
+  });
+}
+load(); buildFilters(); render();
+</script>
+</body>
+</html>
